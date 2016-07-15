@@ -59,16 +59,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormAbout.Designer.cs">
+      <DependentUpon>FormAbout.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormGame.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormGame.Designer.cs">
       <DependentUpon>FormGame.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormHowToPlay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormHowToPlay.Designer.cs">
+      <DependentUpon>FormHowToPlay.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormAbout.resx">
+      <DependentUpon>FormAbout.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormGame.resx">
       <DependentUpon>FormGame.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormHowToPlay.resx">
+      <DependentUpon>FormHowToPlay.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

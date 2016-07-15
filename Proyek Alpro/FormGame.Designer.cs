@@ -29,11 +29,12 @@
         private void InitializeComponent()
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.solveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.listBox1 = new System.Windows.Forms.ListBox();
+            this.loadMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.solveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.howToPlayToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -41,36 +42,15 @@
             // 
             this.menuStrip1.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuToolStripMenuItem});
+            this.loadMapToolStripMenuItem,
+            this.solveToolStripMenuItem,
+            this.howToPlayToolStripMenuItem,
+            this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(675, 24);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
-            // 
-            // menuToolStripMenuItem
-            // 
-            this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadMapToolStripMenuItem,
-            this.solveToolStripMenuItem});
-            this.menuToolStripMenuItem.Font = new System.Drawing.Font("Lucida Console", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
-            this.menuToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
-            this.menuToolStripMenuItem.Text = "&Menu";
-            // 
-            // loadMapToolStripMenuItem
-            // 
-            this.loadMapToolStripMenuItem.Name = "loadMapToolStripMenuItem";
-            this.loadMapToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
-            this.loadMapToolStripMenuItem.Text = "Load Map";
-            this.loadMapToolStripMenuItem.Click += new System.EventHandler(this.loadMapToolStripMenuItem_Click);
-            // 
-            // solveToolStripMenuItem
-            // 
-            this.solveToolStripMenuItem.Name = "solveToolStripMenuItem";
-            this.solveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
-            this.solveToolStripMenuItem.Text = "Solve";
-            this.solveToolStripMenuItem.Click += new System.EventHandler(this.solveToolStripMenuItem_Click);
             // 
             // openFileDialog1
             // 
@@ -80,13 +60,41 @@
             // 
             this.listBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(0, 646);
+            this.listBox1.Location = new System.Drawing.Point(0, 568);
             this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(675, 95);
+            this.listBox1.Size = new System.Drawing.Size(675, 173);
             this.listBox1.TabIndex = 1;
             this.listBox1.TabStop = false;
             this.listBox1.UseTabStops = false;
             this.listBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form3_KeyDown);
+            // 
+            // loadMapToolStripMenuItem
+            // 
+            this.loadMapToolStripMenuItem.Name = "loadMapToolStripMenuItem";
+            this.loadMapToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
+            this.loadMapToolStripMenuItem.Text = "Load Map";
+            this.loadMapToolStripMenuItem.Click += new System.EventHandler(this.loadMapToolStripMenuItem_Click_1);
+            // 
+            // solveToolStripMenuItem
+            // 
+            this.solveToolStripMenuItem.Name = "solveToolStripMenuItem";
+            this.solveToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
+            this.solveToolStripMenuItem.Text = "Solve";
+            this.solveToolStripMenuItem.Click += new System.EventHandler(this.solveToolStripMenuItem_Click_1);
+            // 
+            // howToPlayToolStripMenuItem
+            // 
+            this.howToPlayToolStripMenuItem.Name = "howToPlayToolStripMenuItem";
+            this.howToPlayToolStripMenuItem.Size = new System.Drawing.Size(83, 20);
+            this.howToPlayToolStripMenuItem.Text = "How to Play";
+            this.howToPlayToolStripMenuItem.Click += new System.EventHandler(this.howToPlayToolStripMenuItem_Click);
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(52, 20);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
             // FormGame
             // 
@@ -115,10 +123,11 @@
         #endregion
 
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem loadMapToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ToolStripMenuItem loadMapToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem solveToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem howToPlayToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
     }
 }

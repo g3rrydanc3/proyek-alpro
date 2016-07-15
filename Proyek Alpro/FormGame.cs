@@ -30,8 +30,8 @@ namespace Proyek_Alpro
         {
             public int[,] solution;
             public List<string> log = new List<string>();
+            int count;
 
-            //initialize the solution matrix in constructor.
             public RatInMaze(int N) {
 		        solution = new int[N,N];
 		        for (int i = 0; i < N; i++) {
@@ -45,7 +45,7 @@ namespace Proyek_Alpro
 		        if (findPath(maze, 0, 0, N, "down")) {
 			        print(solution, N);
 		        }else{
-			        log.Add("NO PATH FOUND");
+			        log.Add("Tidak ada jalan keluar");
 		        }
 		
 	        }
@@ -101,7 +101,15 @@ namespace Proyek_Alpro
 		        for (int i = 0; i < N; i++) {
                     string temp = "";
 			        for (int j = 0; j < N; j++) {
-				        temp += " " + solution[j,i];
+                        if (solution[j,i] == 1)
+                        {
+                            temp += " " + count++;
+                        }
+                        else
+                        {
+                            temp += " " + solution[j, i];
+                        }
+				        
 			        }
                     log.Add(temp);
 		        }
@@ -187,7 +195,7 @@ namespace Proyek_Alpro
             this.Invalidate();
         }
 
-        private void loadMapToolStripMenuItem_Click(object sender, EventArgs e)
+        private void loadMapToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             openFileDialog1.InitialDirectory = Application.StartupPath + @"\asset\map";
             openFileDialog1.Filter = "TXT File (*.txt) | *.txt" + "|" + "XML File (*.xml) | *.xml";
@@ -211,7 +219,7 @@ namespace Proyek_Alpro
             }
         }
 
-        private void solveToolStripMenuItem_Click(object sender, EventArgs e)
+        private void solveToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             RatInMaze r = new RatInMaze(15);
             r.solveMaze(peta, 15);
@@ -219,6 +227,18 @@ namespace Proyek_Alpro
             {
                 listBox1.Items.Add(r.log[i]);
             }
+        }
+
+        private void howToPlayToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormHowToPlay f = new FormHowToPlay();
+            f.ShowDialog();
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormAbout f = new FormAbout();
+            f.ShowDialog();
         }
     }
 }
