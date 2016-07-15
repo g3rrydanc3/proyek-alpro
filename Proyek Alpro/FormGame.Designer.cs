@@ -1,6 +1,6 @@
 ﻿namespace Proyek_Alpro
 {
-    partial class Form3
+    partial class FormGame
     {
         /// <summary>
         /// Required designer variable.
@@ -30,9 +30,10 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.menuToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.drawMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadMapToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.solveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,19 +51,12 @@
             // menuToolStripMenuItem
             // 
             this.menuToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.drawMapToolStripMenuItem,
-            this.loadMapToolStripMenuItem});
+            this.loadMapToolStripMenuItem,
+            this.solveToolStripMenuItem});
             this.menuToolStripMenuItem.Font = new System.Drawing.Font("Lucida Console", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.menuToolStripMenuItem.Name = "menuToolStripMenuItem";
             this.menuToolStripMenuItem.Size = new System.Drawing.Size(55, 20);
             this.menuToolStripMenuItem.Text = "&Menu";
-            // 
-            // drawMapToolStripMenuItem
-            // 
-            this.drawMapToolStripMenuItem.Name = "drawMapToolStripMenuItem";
-            this.drawMapToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
-            this.drawMapToolStripMenuItem.Text = "Draw Map";
-            this.drawMapToolStripMenuItem.Click += new System.EventHandler(this.drawMapToolStripMenuItem_Click);
             // 
             // loadMapToolStripMenuItem
             // 
@@ -71,22 +65,43 @@
             this.loadMapToolStripMenuItem.Text = "Load Map";
             this.loadMapToolStripMenuItem.Click += new System.EventHandler(this.loadMapToolStripMenuItem_Click);
             // 
+            // solveToolStripMenuItem
+            // 
+            this.solveToolStripMenuItem.Name = "solveToolStripMenuItem";
+            this.solveToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.solveToolStripMenuItem.Text = "Solve";
+            this.solveToolStripMenuItem.Click += new System.EventHandler(this.solveToolStripMenuItem_Click);
+            // 
             // openFileDialog1
             // 
-            this.openFileDialog1.FileName = "openFileDialog1";
+            this.openFileDialog1.Title = "Load Map";
             // 
-            // Form3
+            // listBox1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(675, 699);
+            this.listBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(0, 699);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(675, 95);
+            this.listBox1.TabIndex = 1;
+            this.listBox1.TabStop = false;
+            this.listBox1.UseTabStops = false;
+            this.listBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form3_KeyDown);
+            // 
+            // FormGame
+            // 
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.ClientSize = new System.Drawing.Size(675, 794);
+            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MainMenuStrip = this.menuStrip1;
-            this.Name = "Form3";
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "FormGame";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Form3";
+            this.Text = "The Maze";
             this.Load += new System.EventHandler(this.Form3_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form3_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form3_KeyDown);
@@ -101,8 +116,9 @@
 
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem menuToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem drawMapToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem loadMapToolStripMenuItem;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ToolStripMenuItem solveToolStripMenuItem;
     }
 }
