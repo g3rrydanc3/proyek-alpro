@@ -80,7 +80,7 @@
             // 
             this.listBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(0, 699);
+            this.listBox1.Location = new System.Drawing.Point(0, 646);
             this.listBox1.Name = "listBox1";
             this.listBox1.Size = new System.Drawing.Size(675, 95);
             this.listBox1.TabIndex = 1;
@@ -91,7 +91,7 @@
             // FormGame
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-            this.ClientSize = new System.Drawing.Size(675, 794);
+            this.ClientSize = new System.Drawing.Size(675, 741);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.menuStrip1);
             this.DoubleBuffered = true;

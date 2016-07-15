@@ -110,8 +110,8 @@ namespace Proyek_Alpro
 
         private void refreshGerak()
         {
-            PlayerInPx.X = (Player.X * 45) + 5;
-            PlayerInPx.Y = (Player.Y * 45) + 29;
+            PlayerInPx.X = (Player.X * 30) + 5;
+            PlayerInPx.Y = (Player.Y * 30) + 29;
         }
 
         private void Form3_Load(object sender, EventArgs e)
@@ -135,15 +135,15 @@ namespace Proyek_Alpro
                     {
                         if (peta[j, i] == 1)
                         {
-                            g.DrawImage(ImgLantai, j * 45, (i * 45) + 24, 45, 45);
+                            g.DrawImage(ImgLantai, j * 30, (i * 30) + 24, 30, 30);
                         }
                         else
                         {
-                            g.DrawImage(ImgTembok, j * 45, (i * 45) + 24, 45, 45);
+                            g.DrawImage(ImgTembok, j * 30, (i * 30) + 24, 30, 30);
                         }
                     }
                 }
-                g.DrawImage(ImgPlayer, PlayerInPx.X, PlayerInPx.Y, 35, 35);
+                g.DrawImage(ImgPlayer, PlayerInPx.X, PlayerInPx.Y, 20, 20);
             }
         }
 
