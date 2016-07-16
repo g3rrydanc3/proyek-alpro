@@ -26,100 +26,79 @@ namespace Proyek_Alpro
 
         int[,] peta = new int[15, 15];
         bool loaded;
-        public class RatInMaze
+
+        public int[,] solution;
+        public List<string> log = new List<string>();
+        int count = 0;
+        int map_height = 0;
+        int map_width = 0;
+
+        int solve_step = 1;
+
+        public void solveMaze(int[,] maze, int N) 
         {
-            public int[,] solution;
-            public List<string> log = new List<string>();
-            int count;
-
-            public RatInMaze(int N) {
-		        solution = new int[N,N];
-		        for (int i = 0; i < N; i++) {
-			        for (int j = 0; j < N; j++) {
-				        solution[i,j] = 0;
-			        }
-		        }
-	        }
-
-            public void solveMaze(int[,] maze, int N) {
-		        if (findPath(maze, 0, 0, N, "down")) {
-			        print(solution, N);
-		        }else{
-			        log.Add("Tidak ada jalan keluar");
-		        }
-		
-	        }
-
-            public bool findPath(int[,] maze, int x, int y, int N, String direction)
+            solution = new int[N,N];
+		    for (int i = 0; i < N; i++)
             {
-                // check if maze[x,y] is feasible to move
-                if (x == N - 1 && y == N - 1)
-                {//we have reached
-                    solution[x,y] = 1;
-                    return true;
-                }
-                if (isSafeToGo(maze, x, y, N))
+			    for (int j = 0; j < N; j++)
                 {
-                    // move to maze[x,y]
-                    solution[x,y] = 1;
-                    // now rat has four options, either go right OR go down or left or go up
-                    if (direction != "up" && findPath(maze, x + 1, y, N, "down"))
-                    { //go down
-                        return true;
-                    }
-                    //else go down
-                    if (direction != "left" && findPath(maze, x, y + 1, N, "right"))
-                    { //go right
-                        return true;
-                    }
-                    if (direction != "down" && findPath(maze, x - 1, y, N, "up"))
-                    { //go up
-                        return true;
-                    }
-                    if (direction != "right" && findPath(maze, x, y - 1, N, "left"))
-                    { //go left
-                        return true;
-                    }
-                    //if none of the options work out BACKTRACK undo the move
-                    solution[x,y] = 0;
-                    return false;
-                }
-                return false;
-            }
-
-            // this function will check if mouse can move to this cell
-            public bool isSafeToGo(int[,] maze, int x, int y, int N)
-            {
-                // check if x and y are in limits and cell is not blocked
-                if (x >= 0 && y >= 0 && x < N && y < N && maze[x,y] != 0)
+				    solution[i,j] = 0;
+			    }
+		    }
+		    if (findPath(maze, 0, 0, N, "down")) {
+                for (int i = 0; i < N; i++)
                 {
-                    return true;
-                }
-                return false;
-            }
-            public void print(int[,] solution, int N){
-		        for (int i = 0; i < N; i++) {
                     string temp = "";
-			        for (int j = 0; j < N; j++) {
-                        if (solution[j,i] == 1)
-                        {
-                            temp += " " + count++;
-                        }
-                        else
-                        {
-                            temp += " " + solution[j, i];
-                        }
-				        
-			        }
+                    for (int j = 0; j < N; j++)
+                    {
+                        temp += " " + solution[j, i];
+                    }
                     log.Add(temp);
-		        }
+                }
+		    }else{
+			    log.Add("Impossible Map");
+		    }
+	    }
+
+        public bool findPath(int[,] maze, int x, int y, int N, String direction)
+        {
+            if (x == N - 1 && y == N - 1)
+            {
+                solution[x,y] = count;
+                return true;
             }
+            else if (x >= 0 && y >= 0 && x < N && y < N && maze[x, y] != 0)
+            {
+                solution[x,y] = count++;
+                if (direction != "up" && findPath(maze, x + 1, y, N, "down"))
+                {
+                    return true;
+                }
+                if (direction != "left" && findPath(maze, x, y + 1, N, "right"))
+                {
+                    return true;
+                }
+                if (direction != "down" && findPath(maze, x - 1, y, N, "up"))
+                {
+                    return true;
+                }
+                if (direction != "right" && findPath(maze, x, y - 1, N, "left"))
+                {
+                    return true;
+                }
+                //if none of the options work out BACKTRACK undo the move
+                solution[x,y] = 0;
+                count--;
+                return false;
+            }
+            return false;
         }
 
         private void refreshGerak()
         {
             PlayerInPx.X = (Player.X * 30) + 5;
             PlayerInPx.Y = (Player.Y * 30) + 29;
+            this.Invalidate();
         }
 
         private void Form3_Load(object sender, EventArgs e)
@@ -192,7 +171,6 @@ namespace Proyek_Alpro
                 }
             }
             refreshGerak();
-            this.Invalidate();
         }
 
         private void loadMapToolStripMenuItem_Click_1(object sender, EventArgs e)
@@ -201,32 +179,59 @@ namespace Proyek_Alpro
             openFileDialog1.Filter = "TXT File (*.txt) | *.txt" + "|" + "XML File (*.xml) | *.xml";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                string filename = openFileDialog1.FileName;
-                StreamReader file = new StreamReader(filename);
-                int counterBaris = 0;
+                StreamReader file = new StreamReader(openFileDialog1.FileName);
+                bool error = false;
                 while (!file.EndOfStream)
                 {
                     String data = file.ReadLine();
-                    for (int i = 0; i < 15; i++)
+                    if (map_height == 0)
                     {
-                        peta[i, counterBaris] = (int)Char.GetNumericValue(data[i]);
+                        map_width = data.Count();
                     }
-                    counterBaris++;
+
+                    if (map_width == data.Count())
+                    {
+                        for (int i = 0; i < map_width; i++)
+                        {
+                            if (data[i] == '1' || data[i] == '0')
+                            {
+                                peta[i, map_height] = (int)Char.GetNumericValue(data[i]);
+                            }
+                            else
+                            {
+                                error = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        error = true;
+                    }
+                    map_height++;
                 }
                 file.Close();
-                loaded = true;
-                this.Invalidate();
+
+                if (error)
+                {
+                    MessageBox.Show("File tidak sesuai");
+                }
+                else
+                {
+                    loaded = true;
+                    this.Invalidate();
+                }
             }
         }
 
         private void solveToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            RatInMaze r = new RatInMaze(15);
-            r.solveMaze(peta, 15);
-            for (int i = 0; i < r.log.Count(); i++)
+            //RatInMaze r = new RatInMaze(15);
+            solveMaze(peta, 15);
+            for (int i = 0; i < log.Count(); i++)
             {
-                listBox1.Items.Add(r.log[i]);
+                listBox1.Items.Add(log[i]);
             }
+            timer1.Enabled = true;
         }
 
         private void howToPlayToolStripMenuItem_Click(object sender, EventArgs e)
@@ -239,6 +244,31 @@ namespace Proyek_Alpro
         {
             FormAbout f = new FormAbout();
             f.ShowDialog();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            for (int w = 0; w < map_width; w++)
+            {
+                for (int h = 0; h < map_height; h++)
+                {
+                    if (solution[h,w] == solve_step)
+                    {
+                        Player.X = h;
+                        Player.Y = w;
+                        refreshGerak();
+                        break;
+                    }
+                }
+                if (w == map_width - 2)
+                {
+                    solve_step++;
+                }
+            }
+            if (solution[map_height - 1,map_width - 1] == solve_step)
+            {
+                timer1.Enabled = false;
+            }
         }
     }
 }
