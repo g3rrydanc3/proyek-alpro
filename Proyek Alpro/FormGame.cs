@@ -25,9 +25,9 @@ namespace Proyek_Alpro
         Point PlayerInPx;
 
         int[,] peta = new int[15, 15];
-        bool loaded;
+        bool loaded, enableKeys;
 
-        public int[,] solution;
+        public int[,] solusi;
         public List<string> log = new List<string>();
         int count = 0;
         int map_height = 0;
@@ -37,21 +37,21 @@ namespace Proyek_Alpro
 
         public void solveMaze(int[,] maze, int N) 
         {
-            solution = new int[N,N];
+            solusi = new int[N,N];
 		    for (int i = 0; i < N; i++)
             {
 			    for (int j = 0; j < N; j++)
                 {
-				    solution[i,j] = 0;
+				    solusi[i,j] = 0;
 			    }
 		    }
-		    if (findPath(maze, 0, 0, N, "down")) {
+		    if (cariJalan(maze, 0, 0, N, "down")) {
                 for (int i = 0; i < N; i++)
                 {
                     string temp = "";
                     for (int j = 0; j < N; j++)
                     {
-                        temp += " " + solution[j, i];
+                        temp += " " + solusi[j, i];
                     }
                     log.Add(temp);
                 }
@@ -60,34 +60,34 @@ namespace Proyek_Alpro
 		    }
 	    }
 
-        public bool findPath(int[,] maze, int x, int y, int N, String direction)
+        public bool cariJalan(int[,] maze, int x, int y, int N, String arah)
         {
             if (x == N - 1 && y == N - 1)
             {
-                solution[x,y] = count;
+                solusi[x,y] = count;
                 return true;
             }
             else if (x >= 0 && y >= 0 && x < N && y < N && maze[x, y] != 0)
             {
-                solution[x,y] = count++;
-                if (direction != "up" && findPath(maze, x + 1, y, N, "down"))
+                solusi[x,y] = count++;
+                if (arah != "up" && cariJalan(maze, x + 1, y, N, "down"))
                 {
                     return true;
                 }
-                if (direction != "left" && findPath(maze, x, y + 1, N, "right"))
+                if (arah != "left" && cariJalan(maze, x, y + 1, N, "right"))
                 {
                     return true;
                 }
-                if (direction != "down" && findPath(maze, x - 1, y, N, "up"))
+                if (arah != "down" && cariJalan(maze, x - 1, y, N, "up"))
                 {
                     return true;
                 }
-                if (direction != "right" && findPath(maze, x, y - 1, N, "left"))
+                if (arah != "right" && cariJalan(maze, x, y - 1, N, "left"))
                 {
                     return true;
                 }
                 //if none of the options work out BACKTRACK undo the move
-                solution[x,y] = 0;
+                solusi[x,y] = 0;
                 count--;
                 return false;
             }
@@ -136,41 +136,39 @@ namespace Proyek_Alpro
 
         private void Form3_KeyDown(object sender, KeyEventArgs e)
         {
-            e.SuppressKeyPress = true;
-            if (e.KeyCode == Keys.Right)
+            if (enableKeys)
             {
-                if (peta[Player.X + 1,Player.Y] == 1)
+                e.SuppressKeyPress = true;
+                if (e.KeyCode == Keys.Right)
                 {
-                    Player.X++;
+                    if (Player.X < 14 && peta[Player.X + 1, Player.Y] == 1)
+                    {
+                        Player.X++;
+                    }
                 }
+                if (e.KeyCode == Keys.Left)
+                {
+                    if (Player.X > 0 && peta[Player.X - 1, Player.Y] == 1)
+                    {
+                            Player.X--;
+                    }
+                }
+                if (e.KeyCode == Keys.Up)
+                {
+                    if (Player.Y > 0 && peta[Player.X, Player.Y - 1] == 1)
+                    {
+                        Player.Y--;
+                    }
+                }
+                if (e.KeyCode == Keys.Down)
+                {
+                    if (Player.Y < 14 && peta[Player.X, Player.Y + 1] == 1)
+                    {
+                        Player.Y++;
+                    }
+                }
+                refreshGerak();
             }
-            if (e.KeyCode == Keys.Left)
-            {
-                if (peta[Player.X - 1, Player.Y] == 1)
-                {
-                    Player.X--;
-                }
-            }
-            if (e.KeyCode == Keys.Up)
-            {
-                if (peta[Player.X, Player.Y - 1] == 1)
-                {
-                    Player.Y--;
-                }
-            }
-            if (e.KeyCode == Keys.Down)
-            {
-                if (Player.Y == 14)
-                {
-                    Player.Y = 14;
-                    this.Invalidate();
-                }
-                else if (peta[Player.X, Player.Y + 1] == 1)
-                {
-                    Player.Y++;
-                }
-            }
-            refreshGerak();
         }
 
         private void loadMapToolStripMenuItem_Click_1(object sender, EventArgs e)
@@ -218,6 +216,8 @@ namespace Proyek_Alpro
                 else
                 {
                     loaded = true;
+                    enableKeys = true;
+                    solveToolStripMenuItem.Enabled = true;
                     this.Invalidate();
                 }
             }
@@ -225,13 +225,13 @@ namespace Proyek_Alpro
 
         private void solveToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            //RatInMaze r = new RatInMaze(15);
             solveMaze(peta, 15);
             for (int i = 0; i < log.Count(); i++)
             {
                 listBox1.Items.Add(log[i]);
             }
             timer1.Enabled = true;
+            enableKeys = false;
         }
 
         private void howToPlayToolStripMenuItem_Click(object sender, EventArgs e)
@@ -252,22 +252,22 @@ namespace Proyek_Alpro
             {
                 for (int h = 0; h < map_height; h++)
                 {
-                    if (solution[h,w] == solve_step)
+                    if (solusi[h,w] == solve_step)
                     {
                         Player.X = h;
                         Player.Y = w;
                         refreshGerak();
-                        break;
                     }
                 }
-                if (w == map_width - 2)
+                if (w == map_width - 1)
                 {
                     solve_step++;
                 }
             }
-            if (solution[map_height - 1,map_width - 1] == solve_step)
+            if (solusi[map_height - 1,map_width - 1] == solve_step - 1)
             {
                 timer1.Enabled = false;
+                enableKeys = true;
             }
         }
     }

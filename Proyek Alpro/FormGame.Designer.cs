@@ -63,6 +63,7 @@
             // 
             // solveToolStripMenuItem
             // 
+            this.solveToolStripMenuItem.Enabled = false;
             this.solveToolStripMenuItem.Name = "solveToolStripMenuItem";
             this.solveToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.solveToolStripMenuItem.Text = "Solve";
@@ -100,6 +101,7 @@
             // 
             // timer1
             // 
+            this.timer1.Interval = 500;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // FormGame
