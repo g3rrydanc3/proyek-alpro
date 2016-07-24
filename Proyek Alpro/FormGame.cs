@@ -33,6 +33,8 @@ namespace Proyek_Alpro
         int map_height = 0;
         int map_width = 0;
 
+        int gerakX, gerakY;
+
         int solve_step = 1;
 
         public void solveMaze(int[,] maze, int N) 
@@ -94,10 +96,18 @@ namespace Proyek_Alpro
             return false;
         }
 
-        private void refreshGerak()
+        private void playerGerak(int x, int y)
         {
-            PlayerInPx.X = (Player.X * 30) + 5;
-            PlayerInPx.Y = (Player.Y * 30) + 29;
+            int tempX = x - Player.X;
+            int tempY = y - Player.Y;
+            Player.X = x;
+            Player.Y = y;
+            gerakX = tempX * 30;
+            gerakY = tempY * 30;
+            //PlayerInPx.X = (Player.X * 30) + 5;
+            //PlayerInPx.Y = (Player.Y * 30) + 29;
+            t2gerak.Enabled = true;
+            enableKeys = false;
             this.Invalidate();
         }
 
@@ -106,9 +116,9 @@ namespace Proyek_Alpro
             ImgTembok = Proyek_Alpro.Properties.Resources.tembok;
             ImgLantai = Proyek_Alpro.Properties.Resources.lantai;
             ImgPlayer = Proyek_Alpro.Properties.Resources.player;
-            Player.X = 0;
-            Player.Y = 0;
-            refreshGerak();
+            playerGerak(0, 0);
+            PlayerInPx.X = (Player.X * 30) + 35;
+            PlayerInPx.Y = (Player.Y * 30) + 59;
         }
 
         private void Form3_Paint(object sender, PaintEventArgs e)
@@ -116,17 +126,21 @@ namespace Proyek_Alpro
             Graphics g = e.Graphics;
             if (loaded == true)
             {
-                for (int i = 0; i < 15; i++)
+                for (int i = 0; i < 17; i++)
                 {
-                    for (int j = 0; j < 15; j++)
+                    for (int j = 0; j < 17; j++)
                     {
-                        if (peta[j, i] == 1)
+                        if (i == 0 || i == 16 || j == 0 || j == 16)
                         {
-                            g.DrawImage(ImgLantai, j * 30, (i * 30) + 24, 30, 30);
+                            g.DrawImage(ImgTembok, (j * 30), (i * 30) + 24, 30, 30);
+                        }
+                        else if (peta[j - 1, i - 1] == 1)
+                        {
+                            g.DrawImage(ImgLantai, (j * 30), (i * 30) + 24, 30, 30);
                         }
                         else
                         {
-                            g.DrawImage(ImgTembok, j * 30, (i * 30) + 24, 30, 30);
+                            g.DrawImage(ImgTembok, (j * 30), (i * 30) + 24, 30, 30);
                         }
                     }
                 }
@@ -143,31 +157,31 @@ namespace Proyek_Alpro
                 {
                     if (Player.X < 14 && peta[Player.X + 1, Player.Y] == 1)
                     {
-                        Player.X++;
+                        playerGerak(Player.X + 1,Player.Y);
                     }
                 }
                 if (e.KeyCode == Keys.Left)
                 {
                     if (Player.X > 0 && peta[Player.X - 1, Player.Y] == 1)
                     {
-                            Player.X--;
+                        playerGerak(Player.X - 1, Player.Y);
                     }
                 }
                 if (e.KeyCode == Keys.Up)
                 {
                     if (Player.Y > 0 && peta[Player.X, Player.Y - 1] == 1)
                     {
-                        Player.Y--;
+                        playerGerak(Player.X, Player.Y - 1);
                     }
                 }
                 if (e.KeyCode == Keys.Down)
                 {
                     if (Player.Y < 14 && peta[Player.X, Player.Y + 1] == 1)
                     {
-                        Player.Y++;
+                        playerGerak(Player.X, Player.Y + 1);
                     }
                 }
-                refreshGerak();
+                
             }
         }
 
@@ -232,6 +246,7 @@ namespace Proyek_Alpro
             }
             timer1.Enabled = true;
             enableKeys = false;
+            solveToolStripMenuItem.Enabled = false;
         }
 
         private void howToPlayToolStripMenuItem_Click(object sender, EventArgs e)
@@ -254,9 +269,7 @@ namespace Proyek_Alpro
                 {
                     if (solusi[h,w] == solve_step)
                     {
-                        Player.X = h;
-                        Player.Y = w;
-                        refreshGerak();
+                        playerGerak(h, w);
                     }
                 }
                 if (w == map_width - 1)
@@ -267,6 +280,40 @@ namespace Proyek_Alpro
             if (solusi[map_height - 1,map_width - 1] == solve_step - 1)
             {
                 timer1.Enabled = false;
+                enableKeys = true;
+            }
+        }
+
+        private void t2gerak_Tick(object sender, EventArgs e)
+        {
+            int increment = 10;
+            if (gerakX != 0 || gerakY != 0)
+            {
+                if (gerakX > 0)
+                {
+                    PlayerInPx.X += increment;
+                    gerakX-= increment;
+                }
+                else if ( gerakX < 0)
+                {
+                    PlayerInPx.X-=increment;
+                    gerakX+=increment;
+                }
+                if (gerakY > 0)
+                {
+                    PlayerInPx.Y+=increment;
+                    gerakY-=increment;
+                }
+                else if (gerakY < 0)
+                {
+                    PlayerInPx.Y-= increment;
+                    gerakY+=increment;
+                }
+                this.Invalidate();
+            }
+            else
+            {
+                t2gerak.Enabled = false;
                 enableKeys = true;
             }
         }

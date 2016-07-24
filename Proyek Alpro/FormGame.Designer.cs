@@ -37,6 +37,7 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.t2gerak = new System.Windows.Forms.Timer(this.components);
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -104,6 +105,11 @@
             this.timer1.Interval = 500;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // t2gerak
+            // 
+            this.t2gerak.Interval = 50;
+            this.t2gerak.Tick += new System.EventHandler(this.t2gerak_Tick);
+            // 
             // FormGame
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
@@ -138,5 +144,6 @@
         private System.Windows.Forms.ToolStripMenuItem howToPlayToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Timer t2gerak;
     }
 }
