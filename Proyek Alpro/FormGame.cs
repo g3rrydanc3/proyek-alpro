@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Media;
 
 namespace Proyek_Alpro
 {
@@ -36,6 +37,8 @@ namespace Proyek_Alpro
         int gerakX, gerakY;
 
         int solve_step = 1;
+
+        SoundPlayer tabrak = new SoundPlayer(Proyek_Alpro.Properties.Resources.tabrak);
 
         public void solveMaze(int[,] maze, int N) 
         {
@@ -159,12 +162,20 @@ namespace Proyek_Alpro
                     {
                         playerGerak(Player.X + 1,Player.Y);
                     }
+                    else
+                    {
+                        tabrak.Play();
+                    }
                 }
                 if (e.KeyCode == Keys.Left)
                 {
                     if (Player.X > 0 && peta[Player.X - 1, Player.Y] == 1)
                     {
                         playerGerak(Player.X - 1, Player.Y);
+                    }
+                    else
+                    {
+                        tabrak.Play();
                     }
                 }
                 if (e.KeyCode == Keys.Up)
@@ -173,12 +184,20 @@ namespace Proyek_Alpro
                     {
                         playerGerak(Player.X, Player.Y - 1);
                     }
+                    else
+                    {
+                        tabrak.Play();
+                    }
                 }
                 if (e.KeyCode == Keys.Down)
                 {
                     if (Player.Y < 14 && peta[Player.X, Player.Y + 1] == 1)
                     {
                         playerGerak(Player.X, Player.Y + 1);
+                    }
+                    else
+                    {
+                        tabrak.Play();
                     }
                 }
                 
@@ -188,7 +207,7 @@ namespace Proyek_Alpro
         private void loadMapToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
             openFileDialog1.InitialDirectory = Application.StartupPath + @"\asset\map";
-            openFileDialog1.Filter = "TXT File (*.txt) | *.txt" + "|" + "XML File (*.xml) | *.xml";
+            openFileDialog1.Filter = "TXT File (*.txt) | *.txt";// + "|" + "XML File (*.xml) | *.xml";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 StreamReader file = new StreamReader(openFileDialog1.FileName);

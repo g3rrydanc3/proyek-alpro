@@ -84,6 +84,29 @@ namespace Proyek_Alpro.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 100000000000000
+        ///111011111111111
+        ///011110010100010
+        ///001011011111110
+        ///011001010101010
+        ///001101010110100
+        ///110101011011110
+        ///010101001010010
+        ///011101011011010
+        ///000001011110110
+        ///010110110101010
+        ///010111111010110
+        ///001100000110010
+        ///010111111111111
+        ///000000000000001.
+        /// </summary>
+        public static string _1___Copy {
+            get {
+                return ResourceManager.GetString("_1___Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap background {
@@ -120,6 +143,15 @@ namespace Proyek_Alpro.Properties {
             get {
                 object obj = ResourceManager.GetObject("stts", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
+        /// </summary>
+        public static System.IO.UnmanagedMemoryStream tabrak {
+            get {
+                return ResourceManager.GetStream("tabrak", resourceCulture);
             }
         }
         
