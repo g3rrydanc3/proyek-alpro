@@ -21,9 +21,10 @@ namespace Proyek_Alpro
         
         Image ImgTembok;
         Image ImgLantai;
-        Image ImgPlayer;
         Point Player;
         Point PlayerInPx;
+        Image[] ImgPlayer = new Image[4];
+        Image ImgStart;
 
         int[,] peta = new int[15, 15];
         bool loaded, enableKeys;
@@ -33,15 +34,32 @@ namespace Proyek_Alpro
         int count = 0;
         int map_height = 0;
         int map_width = 0;
+        int arahPlayer = 0;
 
         int gerakX, gerakY;
 
         int solve_step = 1;
+        bool gerakFinish = true;
+        bool solvePressed = false;
 
         SoundPlayer tabrak = new SoundPlayer(Proyek_Alpro.Properties.Resources.tabrak);
 
+        void cekMenang()
+        {
+            if (Player.X == 14 && Player.Y == 14 && gerakFinish == true)
+            {
+                enableKeys = false;
+                timer1.Enabled = false;
+                listBox1.Items.Add("Menang");
+                MessageBox.Show("Finish");
+            }
+        }
+
         public void solveMaze(int[,] maze, int N) 
         {
+            count = 0;
+            solve_step = 1;
+            log.Clear();
             solusi = new int[N,N];
 		    for (int i = 0; i < N; i++)
             {
@@ -118,10 +136,15 @@ namespace Proyek_Alpro
         {
             ImgTembok = Proyek_Alpro.Properties.Resources.tembok;
             ImgLantai = Proyek_Alpro.Properties.Resources.lantai;
-            ImgPlayer = Proyek_Alpro.Properties.Resources.player;
+
+            ImgPlayer[0] = Proyek_Alpro.Properties.Resources.p1;
+            ImgPlayer[1] = Proyek_Alpro.Properties.Resources.p2;
+            ImgPlayer[2] = Proyek_Alpro.Properties.Resources.p3;
+            ImgPlayer[3] = Proyek_Alpro.Properties.Resources.p4;
+            ImgStart = Proyek_Alpro.Properties.Resources.start;
             playerGerak(0, 0);
-            PlayerInPx.X = (Player.X * 30) + 35;
-            PlayerInPx.Y = (Player.Y * 30) + 59;
+            PlayerInPx.X = (Player.X * 30) + 37;
+            PlayerInPx.Y = (Player.Y * 30) + 57;
         }
 
         private void Form3_Paint(object sender, PaintEventArgs e)
@@ -147,7 +170,8 @@ namespace Proyek_Alpro
                         }
                     }
                 }
-                g.DrawImage(ImgPlayer, PlayerInPx.X, PlayerInPx.Y, 20, 20);
+                g.DrawImage(ImgStart, 15 * 30, 16 * 30 - 5, 25, 25);
+                g.DrawImage(ImgPlayer[arahPlayer], PlayerInPx.X, PlayerInPx.Y, 12, 23);
             }
         }
 
@@ -166,6 +190,8 @@ namespace Proyek_Alpro
                     {
                         tabrak.Play();
                     }
+                    arahPlayer = 3;
+                    listBox1.Items.Add("Kanan");
                 }
                 if (e.KeyCode == Keys.Left)
                 {
@@ -177,6 +203,8 @@ namespace Proyek_Alpro
                     {
                         tabrak.Play();
                     }
+                    arahPlayer = 2;
+                    listBox1.Items.Add("Kiri");
                 }
                 if (e.KeyCode == Keys.Up)
                 {
@@ -188,6 +216,8 @@ namespace Proyek_Alpro
                     {
                         tabrak.Play();
                     }
+                    arahPlayer = 1;
+                    listBox1.Items.Add("Atas");
                 }
                 if (e.KeyCode == Keys.Down)
                 {
@@ -199,8 +229,10 @@ namespace Proyek_Alpro
                     {
                         tabrak.Play();
                     }
+                    arahPlayer = 0;
+                    listBox1.Items.Add("Bawah");
                 }
-                
+                this.Invalidate();
             }
         }
 
@@ -210,6 +242,12 @@ namespace Proyek_Alpro
             openFileDialog1.Filter = "TXT File (*.txt) | *.txt";// + "|" + "XML File (*.xml) | *.xml";
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
+                peta = new int[15, 15];
+                map_height = 0;
+                map_width = 0;
+                playerGerak(0, 0);
+                listBox1.Items.Clear();
+                arahPlayer = 0;
                 StreamReader file = new StreamReader(openFileDialog1.FileName);
                 bool error = false;
                 while (!file.EndOfStream)
@@ -258,14 +296,30 @@ namespace Proyek_Alpro
 
         private void solveToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            solveMaze(peta, 15);
-            for (int i = 0; i < log.Count(); i++)
+            if (!solvePressed)
             {
-                listBox1.Items.Add(log[i]);
+                playerGerak(0, 0);
+                solveMaze(peta, 15);
+                for (int i = 0; i < log.Count(); i++)
+                {
+                    listBox1.Items.Add(log[i]);
+                }
+                timer1.Enabled = true;
+                enableKeys = false;
+                solveToolStripMenuItem.Enabled = true;
+                solvePressed = true;
+                solveToolStripMenuItem.Text = "Stop";
+                loadMapToolStripMenuItem.Enabled = false;
             }
-            timer1.Enabled = true;
-            enableKeys = false;
-            solveToolStripMenuItem.Enabled = false;
+            else
+            {
+                timer1.Enabled = false;
+                enableKeys = true;
+                solveToolStripMenuItem.Enabled = true;
+                solveToolStripMenuItem.Text = "Solve";
+                solvePressed = false;
+                loadMapToolStripMenuItem.Enabled = true;
+            }
         }
 
         private void howToPlayToolStripMenuItem_Click(object sender, EventArgs e)
@@ -282,58 +336,69 @@ namespace Proyek_Alpro
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            for (int w = 0; w < map_width; w++)
+            if (gerakFinish)
             {
-                for (int h = 0; h < map_height; h++)
+                for (int w = 0; w < map_width; w++)
                 {
-                    if (solusi[h,w] == solve_step)
+                    for (int h = 0; h < map_height; h++)
                     {
-                        playerGerak(h, w);
+                        if (solusi[h, w] == solve_step)
+                        {
+                            playerGerak(h, w);
+                        }
+                    }
+                    if (w == map_width - 1)
+                    {
+                        solve_step++;
                     }
                 }
-                if (w == map_width - 1)
+                if (solusi[map_height - 1, map_width - 1] == solve_step - 1)
                 {
-                    solve_step++;
+                    timer1.Enabled = false;
+                    enableKeys = true;
                 }
-            }
-            if (solusi[map_height - 1,map_width - 1] == solve_step - 1)
-            {
-                timer1.Enabled = false;
-                enableKeys = true;
             }
         }
 
         private void t2gerak_Tick(object sender, EventArgs e)
         {
+            gerakFinish = false;
+            
             int increment = 10;
             if (gerakX != 0 || gerakY != 0)
             {
                 if (gerakX > 0)
                 {
                     PlayerInPx.X += increment;
-                    gerakX-= increment;
+                    gerakX -= increment;
+                    arahPlayer = 3;
                 }
-                else if ( gerakX < 0)
+                else if (gerakX < 0)
                 {
-                    PlayerInPx.X-=increment;
-                    gerakX+=increment;
+                    PlayerInPx.X -= increment;
+                    gerakX += increment;
+                    arahPlayer = 2;
                 }
                 if (gerakY > 0)
                 {
-                    PlayerInPx.Y+=increment;
-                    gerakY-=increment;
+                    PlayerInPx.Y += increment;
+                    gerakY -= increment;
+                    arahPlayer = 0;
                 }
                 else if (gerakY < 0)
                 {
-                    PlayerInPx.Y-= increment;
-                    gerakY+=increment;
+                    PlayerInPx.Y -= increment;
+                    gerakY += increment;
+                    arahPlayer = 1;
                 }
                 this.Invalidate();
             }
             else
             {
                 t2gerak.Enabled = false;
+                gerakFinish = true;
                 enableKeys = true;
+                cekMenang();
             }
         }
     }

@@ -158,6 +158,21 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="asset\image\p1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="asset\image\p2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="asset\image\p3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="asset\image\p4.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="asset\image\start.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
